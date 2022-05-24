@@ -9,7 +9,6 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/SimilarEgs/CURD-BOOKS/db"
 	"github.com/SimilarEgs/CURD-BOOKS/models"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
