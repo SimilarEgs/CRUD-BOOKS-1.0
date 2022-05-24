@@ -7,8 +7,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/SimilarEgs/CURD-BOOKS/models"
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
@@ -44,7 +46,24 @@ func GetBookById() {}
 
 func GetAllBooks() {}
 
-func DeleteBookById() {}
+func DeleteBookById(w http.ResponseWriter, r *http.Request) {
+	//getting book id from request params
+	params := mux.Vars(r)
+	//converting received id into int
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		log.Fatalf("[Error] failed convertion string to int  %v", err)
+	}
+	//evoke «delete book» function
+	deleteBook(int64(id))
+
+	res := response{
+		ID:      int64(id),
+		Message: "[Info] book was successfully deleted from DB",
+	}
+
+	json.NewEncoder(w).Encode(res)
+}
 
 func UpdateBookById() {}
 
@@ -58,13 +77,13 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("[Error] cannot decode request body: %v", err)
 	}
 
-	//evoke «insert book» function and gave it decoded book variable
+	//evoke «insert book» function
 	insertID := insertBook(book)
 
 	//preparing response object
 	res := response{
 		ID:      insertID,
-		Message: "Book was successfully created and stored in DB",
+		Message: "[Info] book was successfully created and stored in DB",
 	}
 	json.NewEncoder(w).Encode(res)
 }
@@ -76,12 +95,14 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 //insert book in the DB
 func insertBook(book models.Books) int64 {
 
-	//create db connection
 	db := createDBConnection()
 	defer db.Close()
 
-	//create sql query
-	sqlStatement := `INSERT INTO books (bookname, author, date) VALUES ($1, $2, $3) RETURNING id`
+	//create INSERT sql query
+	sqlStatement := `
+	INSERT INTO books (bookname, author, date)
+	VALUES ($1, $2, $3) 
+	RETURNING id`
 
 	//inserted id will store in this variable
 	var id int64
@@ -92,4 +113,22 @@ func insertBook(book models.Books) int64 {
 	fmt.Printf("[Info] entity id - %v: was successfully inserted\n", id)
 
 	return id
+}
+
+func deleteBook(id int64) {
+
+	db := createDBConnection()
+	defer db.Close()
+
+	//create DELETE sql query
+	sqlStatement := `
+	DELETE FROM books
+	WHERE id =$1;`
+
+	//execute sql statement
+	_, err := db.Exec(sqlStatement, id)
+	if err != nil {
+		log.Fatalf("[Error] failed to execute the query: %v", err)
+	}
+
 }
