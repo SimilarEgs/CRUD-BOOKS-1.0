@@ -1,8 +1,8 @@
 package middleware
 
-func getBookById() {}
+func getBookById(){}
 
-func getAllBook() {}
+func getAllBooks() {}
 
 func deleteBookById() {}
 

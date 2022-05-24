@@ -1,15 +1,15 @@
 package router
 
 import (
-	"github"
+	"github.com/SimilarEgs/CURD-BOOKS/middleware"
 	"github.com/gorilla/mux"
 )
 
 func Router() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/book{id}", )
-	router.HandleFunc()
+	router.HandleFunc("/book{id}", middleware.getBookById())
+	router.HandleFunc("/book", middleware.getAllBooks())
 	router.HandleFunc()
 	router.HandleFunc()
 	router.HandleFunc()
