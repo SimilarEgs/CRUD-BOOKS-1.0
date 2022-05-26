@@ -176,7 +176,7 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 }
 
 /////////////////////////////////////////////////////////////////////////
-//                            handlers                          	  //
+//                            handlers                                 //
 /////////////////////////////////////////////////////////////////////////
 
 func insertBook(book models.Books) int64 {
@@ -308,7 +308,7 @@ func updateBookById(id int64, book models.Books) {
 }
 
 /////////////////////////////////////////////////////////////////////////
-//                            healpers                          	   //
+//                            healpers                                 //
 /////////////////////////////////////////////////////////////////////////
 
 func rowExists(query string, args ...interface{}) bool {
