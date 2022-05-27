@@ -176,7 +176,7 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 }
 
 /////////////////////////////////////////////////////////////////////////
-//                            handlers                                 //
+//                     handler functions                               //
 /////////////////////////////////////////////////////////////////////////
 
 func insertBook(book models.Books) int64 {
