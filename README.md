@@ -3,7 +3,7 @@
 
 - Clone this repository
 - Execute next in your PostgreSQL client:
-```
+```SQL
 CREATE TABLE books(
     id SERIAL PRIMARY KEY,
     bookname TEXT,
@@ -12,7 +12,7 @@ CREATE TABLE books(
 );
 ```
 - In a root folder create `.env` file and fill the blank with your postgres url:
-``` 
+``` GOLANG
 POSTGRES_URL="postgress_url"
 ```
 - Run `go build` to create the executable file
